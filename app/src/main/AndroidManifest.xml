@@ -11,14 +11,19 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.SplashActivity"
             android:theme="@style/SplashScreenTheme">
-        </activity>
-        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.MainActivity"
+            android:label="@string/home">
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

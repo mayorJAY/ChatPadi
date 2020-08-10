@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ChatPadi</string>
+    <string name="welcome_text">Hello &#x1F44B; Welcome, please type your first name and the last 4 digits of your phone number below &#128071;,
+        this will be your User ID</string>
+    <string name="home">Home</string>
+    <string name="id_hint">E.g: Michael2356</string>
+    <string name="chat">Chat</string>
 </resources>
