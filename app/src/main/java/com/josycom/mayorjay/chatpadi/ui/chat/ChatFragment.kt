@@ -21,7 +21,7 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        id_text.text = arguments?.getString("user_id")
+        //id_text.text = arguments?.getString("user_id")
     }
 
 }

@@ -5,4 +5,8 @@
     <string name="home">Home</string>
     <string name="id_hint">E.g: Michael2356</string>
     <string name="chat">Chat</string>
+    <string name="type_your_message">Type your message</string>
+    <string name="send">Send</string>
+    <string name="_12_00">12:00</string>
+    <string name="lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit">Lorem ipsum dolor sit amet, consectetur adipiscing elit</string>
 </resources>

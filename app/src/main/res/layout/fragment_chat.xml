@@ -6,14 +6,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.chat.ChatFragment">
 
-    <TextView
-        android:id="@+id/id_text"
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/msg_input_layout"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/msg_input_layout"
+        style="@style/Widget.ChatPadi.TextInputLayout"
+        android:layout_width="0dp"
+        app:cornerRadius="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/type_your_message"
+        app:layout_constraintEnd_toStartOf="@id/send_button"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/msg_input_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textLongMessage"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/send_button"
+        style="@style/Widget.ChatPadi.Button"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:text="@string/send"
+        app:cornerRadius="8dp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextWhite"
+        app:layout_constraintBaseline_toBaselineOf="@id/msg_input_layout"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="@id/msg_input_layout"
+        app:layout_constraintBottom_toBottomOf="@id/msg_input_layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

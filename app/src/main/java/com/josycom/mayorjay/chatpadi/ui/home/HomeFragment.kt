@@ -36,6 +36,7 @@ class HomeFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString("user_id", id_input_editText.text.toString())
             findNavController().navigate(R.id.action_homeFragment_to_chatFragment, bundle)
+            id_input_editText.setText("")
             imm.hideSoftInputFromWindow(home_layout.windowToken, 0)
         } else {
             id_input_layout.error = "Use the correct format. E.g: Michael2356"

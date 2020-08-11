@@ -28,6 +28,7 @@
         android:text="@string/welcome_text"
         android:textAlignment="center"
         android:textSize="24sp"
+        android:textColor="@color/colorTextBlack"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +39,7 @@
         android:layout_width="0dp"
         app:cornerRadius="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="24dp"
         android:layout_height="wrap_content"
         android:hint="@string/id_hint"
         app:layout_constraintEnd_toStartOf="@id/chat_button"
@@ -56,8 +57,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/chat_button"
         style="@style/Widget.ChatPadi.Button"
-        android:layout_width="120dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:text="@string/chat"
         app:cornerRadius="8dp"
         android:textAllCaps="false"
