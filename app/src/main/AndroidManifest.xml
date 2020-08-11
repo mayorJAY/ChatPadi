@@ -17,8 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity"
-            android:label="@string/home">
+        <activity android:name=".ui.MainActivity">
         </activity>
 
         <meta-data
