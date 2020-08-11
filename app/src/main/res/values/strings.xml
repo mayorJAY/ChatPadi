@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">ChatPadi</string>
     <string name="welcome_text">Hello &#x1F44B; Welcome, please type your first name and the last 4 digits of your phone number below &#128071;,
-        this will be your User ID</string>
+        this will be your User ID. Do the same for your friend\'s ID &#128522;</string>
     <string name="home">Home</string>
-    <string name="id_hint">E.g: Michael2356</string>
+    <string name="my_id_hint">My ID: E.g - Michael2356</string>
+    <string name="their_id_hint">Friend\'s ID: E.g - Donald4910</string>
     <string name="chat">Chat</string>
     <string name="type_your_message">Type your message</string>
     <string name="send">Send</string>

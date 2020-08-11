@@ -5,19 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.josycom.mayorjay.chatpadi.R
+import com.josycom.mayorjay.chatpadi.adapter.MessageViewHolder
 import com.josycom.mayorjay.chatpadi.adapter.RecyclerViewAdapter
 import com.josycom.mayorjay.chatpadi.adapter.ViewHolder
 import com.josycom.mayorjay.chatpadi.data.Message
 import com.josycom.mayorjay.chatpadi.data.messageDiffUtil
+import com.josycom.mayorjay.chatpadi.databinding.FragmentChatBinding
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.item_message_incoming.view.*
-import kotlinx.android.synthetic.main.item_message_outgoing.view.*
-import java.time.Clock
-import java.time.Instant
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ChatFragment : Fragment() {
 
@@ -28,12 +25,15 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+        // Inflate the layout for this fragment
+        return FragmentChatBinding.inflate(layoutInflater).root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //id_text.text = arguments?.getString("user_id")
+        val myId = arguments?.getString("my_id")
+        val theirId = arguments?.getString("their_id")
+        Toast.makeText(requireContext(), "Chat btw $myId & $theirId", Toast.LENGTH_LONG).show()
 
         setUpData()
 
@@ -80,22 +80,3 @@ class ChatFragment : Fragment() {
     }
 }
 
-class MessageViewHolder(itemView: View) : ViewHolder<Message>(itemView) {
-
-    override fun bind(element: Message) {
-        when(itemViewType) {
-            R.layout.item_message_outgoing -> {
-                with(itemView) {
-                    tv_message_outgoing.text = element.message
-                    tv_message_outgoing_time.text = element.created_at
-                }
-            }
-            R.layout.item_message_incoming -> {
-                with(itemView) {
-                    tv_message_incoming.text = element.message
-                    tv_message_incoming_time.text = element.created_at
-                }
-            }
-        }
-    }
-}

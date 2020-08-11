@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/home_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -22,6 +27,7 @@
         app:layout_constraintGuide_end="8dp" />
 
     <TextView
+        android:id="@+id/tv_welcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -34,20 +40,39 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/id_input_layout"
+        android:id="@+id/my_id_input_layout"
         style="@style/Widget.ChatPadi.TextInputLayout"
         android:layout_width="0dp"
         app:cornerRadius="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="100dp"
         android:layout_height="wrap_content"
-        android:hint="@string/id_hint"
-        app:layout_constraintEnd_toStartOf="@id/chat_button"
+        android:hint="@string/my_id_hint"
         app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/tv_welcome">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/id_input_editText"
+            android:id="@+id/my_id_input_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/their_id_input_layout"
+        style="@style/Widget.ChatPadi.TextInputLayout"
+        android:layout_width="0dp"
+        app:cornerRadius="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/their_id_hint"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/my_id_input_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/their_id_input_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -57,15 +82,17 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/chat_button"
         style="@style/Widget.ChatPadi.Button"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginTop="24dp"
         android:text="@string/chat"
         app:cornerRadius="8dp"
         android:textAllCaps="false"
         android:textColor="@color/colorTextWhite"
-        app:layout_constraintBaseline_toBaselineOf="@id/id_input_layout"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
-        app:layout_constraintTop_toTopOf="@id/id_input_layout"
-        app:layout_constraintBottom_toBottomOf="@id/id_input_layout"/>
+        app:layout_constraintTop_toBottomOf="@id/their_id_input_layout"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
