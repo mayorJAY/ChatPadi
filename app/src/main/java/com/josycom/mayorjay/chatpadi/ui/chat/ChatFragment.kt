@@ -1,11 +1,12 @@
 package com.josycom.mayorjay.chatpadi.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.josycom.mayorjay.chatpadi.R
 import com.josycom.mayorjay.chatpadi.adapter.MessageViewHolder
@@ -14,12 +15,22 @@ import com.josycom.mayorjay.chatpadi.adapter.ViewHolder
 import com.josycom.mayorjay.chatpadi.data.Message
 import com.josycom.mayorjay.chatpadi.data.messageDiffUtil
 import com.josycom.mayorjay.chatpadi.databinding.FragmentChatBinding
+import com.josycom.mayorjay.chatpadi.mqtt.MqttClientHelper
 import kotlinx.android.synthetic.main.fragment_chat.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ChatFragment : Fragment() {
 
-    //private val viewModel: ChatViewModel by viewModel()
-    private lateinit var msgList: MutableList<Message>
+    private val viewModel: ChatViewModel by viewModel()
+    private var msgList: MutableList<Message> = mutableListOf()
+    private lateinit var myTopic: String
+    private lateinit var theirTopic: String
+    private val mqttClient by lazy {
+        MqttClientHelper(requireContext())
+    }
+    companion object {
+        const val TAG = "ChatFragment"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,13 +44,34 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val myId = arguments?.getString("my_id")
         val theirId = arguments?.getString("their_id")
-        Toast.makeText(requireContext(), "Chat btw $myId & $theirId", Toast.LENGTH_LONG).show()
+        myTopic = "$myId/ChatPadiTopic"
+        theirTopic = "$theirId/ChatPadiTopic"
 
-        setUpData()
+        send_button.setOnClickListener {
+            if (msg_input_editText.text.isNullOrEmpty()) {
+                msg_input_layout.error = "Please type a message"
+            }
+//            publish()
+//            subscribeToMyTopic()
+//            subscribeToTheirTopic()
+//            msg_input_editText.setText("")
+            if (viewModel.isConnected()) {
+                publish()
+                subscribeToMyTopic()
+                subscribeToTheirTopic()
+                msg_input_editText.setText("")
+            } else {
+                Log.d(TAG, "Can't publish")
+            }
+        }
+        setUpAdapter()
+        observeMsg()
+    }
 
+    private fun setUpAdapter() {
         val messageAdapter = object: RecyclerViewAdapter<Message>(messageDiffUtil) {
             override fun getLayoutRes(model: Message): Int {
-                return if (model.sender_id!! % 2 == 0) R.layout.item_message_incoming
+                return if (model.message_topic!! == theirTopic) R.layout.item_message_incoming
                 else R.layout.item_message_outgoing
             }
 
@@ -56,27 +88,34 @@ class ChatFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
         messageAdapter.submitList(msgList)
+        messageAdapter.notifyDataSetChanged()
     }
 
-    private fun setUpData() {
-        val msg1 = Message("Lorem Ipsum is simply dummy text of the printing and typesetting industry", 1, System.currentTimeMillis().toString())
-        val msg2 = Message("Lorem Ipsum has been the industry's standard dummy text ever since the 1500s", 2, System.currentTimeMillis().toString())
-        val msg3 = Message("when an unknown printer took a galley of type and scrambled it to make a type specimen book", 3, System.currentTimeMillis().toString())
-        val msg4 = Message("It has survived not only five centuries, but also the leap into electronic typesetting", 4, System.currentTimeMillis().toString())
-        val msg5 = Message("remaining essentially unchanged. It was popularised in the 1960s with the", 5, System.currentTimeMillis().toString())
-        val msg6 = Message("release of Letraset sheets containing Lorem Ipsum passages", 6, System.currentTimeMillis().toString())
-        val msg7 = Message("and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum", 7, System.currentTimeMillis().toString())
-        val msg8 = Message("It is a long established fact that a reader will be distracted by the readable content", 8, System.currentTimeMillis().toString())
-        val msg9 = Message("readable content of a page when looking at its layout", 9, System.currentTimeMillis().toString())
-        val msg10 = Message("The point of using Lorem Ipsum is that it has a more-or-less", 10, System.currentTimeMillis().toString())
-        val msg11 = Message("that it has a more-or-less normal distribution of letters", 11, System.currentTimeMillis().toString())
-        val msg12 = Message("as opposed to using 'Content here, content here', making it look like readable English", 12, System.currentTimeMillis().toString())
-        val msg13 = Message("established fact that a reader will be distracted by the readable content of a page", 13, System.currentTimeMillis().toString())
-        val msg14 = Message("Many desktop publishing packages and web page editors now use", 14, System.currentTimeMillis().toString())
-        val msg15 = Message("Lorem Ipsum as their default model text, and a search for 'lorem ipsum'", 15, System.currentTimeMillis().toString())
-        val msg16 = Message("will uncover many web sites still in their infancy", 16, System.currentTimeMillis().toString())
-        val msg17 = Message("Various versions have evolved over the years, sometimes by accident", 17, System.currentTimeMillis().toString())
-        msgList = mutableListOf(msg1, msg2, msg3, msg4, msg5, msg6, msg7, msg8, msg9, msg10, msg11, msg12, msg13, msg14, msg15, msg16, msg17)
+    private fun observeMsg() {
+        viewModel.msgLiveData.observe(viewLifecycleOwner, Observer { msg ->
+            msgList.add(msg)
+        })
+    }
+
+    private fun publish() {
+        viewModel.publish(myTopic, getMessage())
+    }
+
+    private fun subscribeToMyTopic() {
+        viewModel.subscribeToMyTopic(myTopic)
+        viewModel.setCallBack()
+    }
+
+    private fun subscribeToTheirTopic() {
+        viewModel.subscribeToTheirTopic(theirTopic)
+        viewModel.setCallBack()
+    }
+
+    private fun getMessage() = msg_input_editText.text.toString().trim()
+
+    override fun onDestroy() {
+        viewModel.disconnect()
+        super.onDestroy()
     }
 }
 
