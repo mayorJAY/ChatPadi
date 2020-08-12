@@ -23,8 +23,8 @@ This project makes use of the following tools and solutions:
 
 Min API level is set to 21, so the presented approach is suitable for over 94.1% of devices running Android as at the time of writing this
 
-* [Eclipse Paho Android Service](https://www.eclipse.org/paho/clients/android/) used for the implementations of the MQTT Protocol
-* [HiveMQ](https://www.hivemq.com/): the Broker used used for chat connection
+* [Eclipse Paho Android Service](https://www.eclipse.org/paho/clients/android/) used for implementing the MQTT Protocol
+* [HiveMQ](https://www.hivemq.com/): the Broker used used for establishing connection with the Service
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) used to store and manage UI-related data in a lifecycle conscious way
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) which is an observable data holder class used to handle data in a lifecycle-aware manner
 * [View Binding](https://developer.android.com/topic/libraries/view-binding) used to easily write code that interacts with views by referencing them directly
