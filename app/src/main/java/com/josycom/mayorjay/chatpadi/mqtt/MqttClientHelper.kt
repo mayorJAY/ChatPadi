@@ -10,12 +10,17 @@ import com.josycom.mayorjay.chatpadi.utils.AppConstants.HIVE_MQTT_SERVER_URL
 import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 
-class MqttClientHelper(context: Context?) {
+/**
+ * Helper class for establishing connection to the MQTT server
+ * Publishing and Subscribing to the server
+ */
+class MqttClientHelper(private val context: Context?) {
 
     companion object {
         const val TAG = "MqttClientHelper"
     }
-
+    var myTopic = ""
+    var theirTopic = ""
     private var mqttAndroidClient: MqttAndroidClient
     private val serverUrl = HIVE_MQTT_SERVER_URL
     private val clientId = MqttClient.generateClientId()
@@ -42,15 +47,27 @@ class MqttClientHelper(context: Context?) {
     }
 
     private fun connect() {
-        val mqttConnectOptions  = MqttConnectOptions()
-        mqttConnectOptions.isAutomaticReconnect = HIVE_CONNECTION_RECONNECT
-        mqttConnectOptions.isCleanSession = HIVE_CONNECTION_CLEAN_SESSION
-        mqttConnectOptions.connectionTimeout = HIVE_CONNECTION_TIMEOUT
-        mqttConnectOptions.keepAliveInterval = HIVE_CONNECTION_KEEP_ALIVE_INTERVAL
+        val mqttConnectOptions = MqttConnectOptions()
+        mqttConnectOptions.apply {
+            connectionTimeout = HIVE_CONNECTION_TIMEOUT
+            isAutomaticReconnect = HIVE_CONNECTION_RECONNECT
+            isCleanSession = HIVE_CONNECTION_CLEAN_SESSION
+            keepAliveInterval = HIVE_CONNECTION_KEEP_ALIVE_INTERVAL
+        }
         try {
             mqttAndroidClient.connect(mqttConnectOptions, null, object: IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken?) {
                     Log.w(TAG, "Connection to: $serverUrl; successful")
+                    val disconnectedBufferOptions = DisconnectedBufferOptions()
+                    disconnectedBufferOptions.apply {
+                        isBufferEnabled = true
+                        bufferSize = 100
+                        isPersistBuffer = false
+                        isDeleteOldestMessages = false
+                    }
+                    mqttAndroidClient.setBufferOpts(disconnectedBufferOptions)
+                    subscribe(myTopic)
+                    subscribe(theirTopic)
                 }
 
                 override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
@@ -62,7 +79,7 @@ class MqttClientHelper(context: Context?) {
         }
     }
 
-    fun subscribe(topic: String, qos: Int = 0) {
+    private fun subscribe(topic: String, qos: Int = 1) {
         try {
             mqttAndroidClient.subscribe(topic, qos)
         } catch (ex: MqttException){
@@ -70,7 +87,7 @@ class MqttClientHelper(context: Context?) {
         }
     }
 
-    fun publish(topic: String, msg: String, qos: Int = 0) {
+    fun publish(topic: String, msg: String, qos: Int = 1) {
         try {
             val encodedPayload = msg.toByteArray(charset("UTF-8"))
             mqttAndroidClient.publish(topic, encodedPayload, qos, false)
@@ -81,14 +98,26 @@ class MqttClientHelper(context: Context?) {
         }
     }
 
+    fun unSubscribe() {
+        mqttAndroidClient.unsubscribe(myTopic)
+        mqttAndroidClient.unsubscribe(theirTopic)
+    }
+
     fun setCallback(callback: MqttCallbackExtended?) {
         mqttAndroidClient.setCallback(callback)
     }
 
     fun isConnected() = mqttAndroidClient.isConnected
 
-    fun disconnect() {
+    fun register() {
+        mqttAndroidClient.registerResources(context)
+    }
+
+    fun unregister() {
         mqttAndroidClient.unregisterResources()
+    }
+
+    fun disconnect() {
         mqttAndroidClient.disconnect()
     }
 }

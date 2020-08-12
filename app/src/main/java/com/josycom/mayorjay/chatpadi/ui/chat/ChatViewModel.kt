@@ -11,23 +11,33 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended
 import org.eclipse.paho.client.mqttv3.MqttMessage
 
+/**
+ * Created by MayorJay
+ * This ViewModel houses all the logic used in the ChatFragment
+ * It is used to decouple main logic of the App making the Fragment only responsible for displaying data to the UI
+ * It also has a LiveData object that emits the message to the ChatFragment
+ */
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _msgMutableLiveData = MutableLiveData<Message>()
     val msgLiveData: LiveData<Message> = _msgMutableLiveData
     private var mqttClient: MqttClientHelper = MqttClientHelper((application))
+    var myTopic = ""
+    var theirTopic = ""
 
+    fun setTopic() {
+        mqttClient.myTopic = myTopic
+        mqttClient.theirTopic = theirTopic
+    }
+
+    fun isConnected() = mqttClient.isConnected()
 
     fun publish(topic: String, msg: String) {
         mqttClient.publish(topic, msg)
     }
 
-    fun subscribeToMyTopic(topic: String) {
-        mqttClient.subscribe(topic)
-    }
-
-    fun subscribeToTheirTopic(topic: String) {
-        mqttClient.subscribe(topic)
+    fun register() {
+        mqttClient.register()
     }
 
     fun setCallBack() {
@@ -55,9 +65,15 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    fun unSubscribe() {
+        mqttClient.unSubscribe()
+    }
+
+    fun unregister() {
+        mqttClient.unregister()
+    }
+
     fun disconnect() {
         mqttClient.disconnect()
     }
-
-    fun isConnected() = mqttClient.isConnected()
 }

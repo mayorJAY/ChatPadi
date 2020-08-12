@@ -19,15 +19,19 @@ import com.josycom.mayorjay.chatpadi.mqtt.MqttClientHelper
 import kotlinx.android.synthetic.main.fragment_chat.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
+/**
+ * Created by MayorJay
+ * This Fragment houses the Chat between users
+ * It only draws views, displays data to the UI and handles
+ * the chat service in relation to the fragment lifecycle
+ * The main Logic is housed in the #ChatViewModel
+ */
 class ChatFragment : Fragment() {
 
     private val viewModel: ChatViewModel by viewModel()
     private var msgList: MutableList<Message> = mutableListOf()
     private lateinit var myTopic: String
     private lateinit var theirTopic: String
-    private val mqttClient by lazy {
-        MqttClientHelper(requireContext())
-    }
     companion object {
         const val TAG = "ChatFragment"
     }
@@ -46,19 +50,19 @@ class ChatFragment : Fragment() {
         val theirId = arguments?.getString("their_id")
         myTopic = "$myId/ChatPadiTopic"
         theirTopic = "$theirId/ChatPadiTopic"
+        viewModel.myTopic = myTopic
+        viewModel.theirTopic = theirTopic
+
+        viewModel.setCallBack()
+        viewModel.setTopic()
 
         send_button.setOnClickListener {
             if (msg_input_editText.text.isNullOrEmpty()) {
                 msg_input_layout.error = "Please type a message"
             }
-//            publish()
-//            subscribeToMyTopic()
-//            subscribeToTheirTopic()
-//            msg_input_editText.setText("")
+
             if (viewModel.isConnected()) {
                 publish()
-                subscribeToMyTopic()
-                subscribeToTheirTopic()
                 msg_input_editText.setText("")
             } else {
                 Log.d(TAG, "Can't publish")
@@ -86,9 +90,9 @@ class ChatFragment : Fragment() {
         chat_recyclerview.apply {
             adapter = messageAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            hasFixedSize()
         }
         messageAdapter.submitList(msgList)
-        messageAdapter.notifyDataSetChanged()
     }
 
     private fun observeMsg() {
@@ -101,21 +105,21 @@ class ChatFragment : Fragment() {
         viewModel.publish(myTopic, getMessage())
     }
 
-    private fun subscribeToMyTopic() {
-        viewModel.subscribeToMyTopic(myTopic)
-        viewModel.setCallBack()
-    }
-
-    private fun subscribeToTheirTopic() {
-        viewModel.subscribeToTheirTopic(theirTopic)
-        viewModel.setCallBack()
-    }
-
     private fun getMessage() = msg_input_editText.text.toString().trim()
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.register()
+    }
+
+    override fun onPause() {
+        viewModel.unregister()
+        super.onPause()
+    }
+
     override fun onDestroy() {
+        //viewModel.unSubscribe()
         viewModel.disconnect()
         super.onDestroy()
     }
 }
-

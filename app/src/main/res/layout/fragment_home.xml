@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/home_layout"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,29 +26,37 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="8dp" />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusableInTouchMode="true"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/tv_welcome"/>
+
     <TextView
         android:id="@+id/tv_welcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:text="@string/welcome_text"
         android:textAlignment="center"
-        android:textSize="24sp"
         android:textColor="@color/colorTextBlack"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/my_id_input_layout"
         style="@style/Widget.ChatPadi.TextInputLayout"
         android:layout_width="0dp"
-        app:cornerRadius="16dp"
-        android:layout_marginTop="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
         android:hint="@string/my_id_hint"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:cornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/tv_welcome">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -63,12 +71,12 @@
         android:id="@+id/their_id_input_layout"
         style="@style/Widget.ChatPadi.TextInputLayout"
         android:layout_width="0dp"
-        app:cornerRadius="16dp"
-        android:layout_marginTop="24dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:hint="@string/their_id_hint"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:cornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/my_id_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -86,11 +94,11 @@
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:text="@string/chat"
-        app:cornerRadius="8dp"
         android:textAllCaps="false"
         android:textColor="@color/colorTextWhite"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/their_id_input_layout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

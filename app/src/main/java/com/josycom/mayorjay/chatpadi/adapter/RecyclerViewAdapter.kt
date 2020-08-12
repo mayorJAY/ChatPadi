@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.josycom.mayorjay.chatpadi.utils.inflate
 
+/**
+ * Created by MayorJay
+ * A generic RecyclerView Adapter
+ */
 abstract class RecyclerViewAdapter<T>(diffUtil: DiffUtil.ItemCallback<T>) :
     ListAdapter<T, ViewHolder<T>>(diffUtil) {
 

@@ -7,11 +7,18 @@ import com.josycom.mayorjay.chatpadi.data.Message
 import kotlinx.android.synthetic.main.item_message_incoming.view.*
 import kotlinx.android.synthetic.main.item_message_outgoing.view.*
 
+/**
+ * Created by MayorJay
+ * A generic RecyclerView ViewHolder
+ */
 abstract class ViewHolder<T>(view: View) : RecyclerView.ViewHolder(view) {
 
     abstract fun bind(element: T)
 }
 
+/**
+ * ViewHolder class for the chat messages
+ */
 class MessageViewHolder(itemView: View) : ViewHolder<Message>(itemView) {
 
     override fun bind(element: Message) {

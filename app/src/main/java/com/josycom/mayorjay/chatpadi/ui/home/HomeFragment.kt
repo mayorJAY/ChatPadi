@@ -12,6 +12,10 @@ import com.josycom.mayorjay.chatpadi.R
 import com.josycom.mayorjay.chatpadi.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 
+/**
+ * Created by MayorJay
+ * This Fragment houses the Home Screen
+ */
 class HomeFragment : Fragment() {
 
     override fun onCreateView(
@@ -30,6 +34,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    //Check if the ID inputted is in the correct format and navigate to the chat fragment
     private fun navigateToChat() {
         val bundle = Bundle()
         val userIdRegex = "[a-zA-Z]*[0-9]{4}".toRegex()

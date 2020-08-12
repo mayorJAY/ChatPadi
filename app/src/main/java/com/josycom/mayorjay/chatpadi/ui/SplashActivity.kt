@@ -6,6 +6,11 @@ import android.os.Bundle
 import android.os.Handler
 import com.josycom.mayorjay.chatpadi.R
 
+/**
+ * Created by MayorJay
+ * A lightweight Splash Screen
+ */
+
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
