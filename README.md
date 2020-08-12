@@ -5,7 +5,7 @@
 # ChatPadi
 
 ChatPadi is a chat application that connects two Users. It is based on the MQTT Protocol and Publish/Subscribe pattern; it takes two user IDs and parses them as the 
-topic to subscribe to and it publishes to one of the topics (the main user). It takes implemented using Clean Architecture, Model-View-ViewModel pattern (MVVM) and 
+topic to subscribe to and it publishes to one of the topics (the main user). It is implemented using Clean Architecture, Model-View-ViewModel pattern (MVVM) and 
 uses Modern Android Development pattern and libraries.
 
 ## Project Characteristics
